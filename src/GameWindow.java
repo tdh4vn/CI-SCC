@@ -106,6 +106,8 @@ public class GameWindow extends Frame implements Runnable{
             case 'd':
                 player1.moveByVector(3, 0);
                 break;
+            case ' ':
+                player1.shot();
             default: break;
         }
     }
