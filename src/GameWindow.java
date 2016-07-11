@@ -12,21 +12,27 @@ import java.io.File;
  */
 public class GameWindow extends Frame implements Runnable{
     BufferedImage background;
-    BufferedImage plane;
+    //BufferedImage plane;
     BufferedImage bufferImage;
     int planeX,planeY;
     int planeSpeed = 3;
+    Plane player1;
 
     public GameWindow(){
         initWindow();
         loadImage();
+        initPlane();
         repaint();
         System.out.println("abcd");
     }
 
+    void initPlane(){
+        player1 = new Plane(100, 200, Plane.TYPE_1);
+    }
+
     void loadImage() {
         try {
-            plane = ImageIO.read(new File("Resource/Char/PLANE 1 N.png"));
+           // plane = ImageIO.read(new File("Resource/Char/PLANE 1 N.png"));
             background = ImageIO.read(new File("Resource/Background/airPlanesBackground.png"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,12 +63,17 @@ public class GameWindow extends Frame implements Runnable{
 
             @Override
             public void keyReleased(KeyEvent e) {
-
+                eventKeyReleased(e);
             }
         });
     }
-    void gameUpdate(){
 
+    private void eventKeyReleased(KeyEvent e) {
+        player1.moveByVector(0, 0);
+    }
+
+    void gameUpdate(){
+        player1.update();
     }
 
     void gameLoop(){
@@ -82,18 +93,18 @@ public class GameWindow extends Frame implements Runnable{
         switch (e.getKeyChar()){
             case 'a':
                 System.out.println("AAAA");
-                planeX -= planeSpeed;
+                player1.moveByVector(-3, 0);
                 break;
             case 'w':
-                planeY -= planeSpeed;
+                player1.moveByVector(0, -3);
 
                 break;
             case 's':
-                planeY += planeSpeed;
+                player1.moveByVector(0, 3);
 
                 break;
             case 'd':
-                planeX += planeSpeed;
+                player1.moveByVector(3, 0);
                 break;
             default: break;
         }
@@ -106,7 +117,9 @@ public class GameWindow extends Frame implements Runnable{
         }
         Graphics bufferGraphics = bufferImage.getGraphics();
         bufferGraphics.drawImage(background, 0, 0, null);
-        bufferGraphics.drawImage(plane, planeX, planeY, null);
+
+        player1.draw(bufferGraphics);
+
         g.drawImage(bufferImage, 0, 0, null);
     }
 
