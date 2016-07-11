@@ -8,12 +8,11 @@ import java.util.Iterator;
 /**
  * Created by Hungtdh4vn on 7/11/2016.
  */
-public class Plane {
+public abstract class Plane {
     public static final int TYPE_1 = 1;
     public static final int TYPE_2 = 2;
     private static final String PLANE_1_RS = "Resource/Char/PLANE 1 N.png";
 
-    private ArrayList<Bullet> listBullet;
     BufferedImage sprite;
     private int positionX;
     private int positionY;
@@ -24,7 +23,6 @@ public class Plane {
     }
 
     public Plane(int posX, int posY, int type){
-        listBullet = new ArrayList<>();
         positionX = posX;
         positionY = posY;
         loadSpriteByType(type);
@@ -50,9 +48,6 @@ public class Plane {
         }
     }
 
-    public void shot(){
-        listBullet.add(new Bullet(positionX, positionY));
-    }
 
     public void move(int x, int y){
         positionX = x;
@@ -68,20 +63,10 @@ public class Plane {
         positionX += speedX;
         positionY += speedY;
 
-        Iterator<Bullet> iterator = listBullet.iterator();
-        while (iterator.hasNext()){
-            Bullet bullet = iterator.next();
-            bullet.update();
-        }
     }
 
     public void draw(Graphics g){
         g.drawImage(sprite, positionX, positionY, null);
-        Iterator<Bullet> iterator = listBullet.iterator();
-        while (iterator.hasNext()){
-            Bullet bullet = iterator.next();
-            bullet.draw(g);
-        }
     }
 
     public int getPositionX() {
