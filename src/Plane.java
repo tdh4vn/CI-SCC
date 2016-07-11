@@ -2,19 +2,22 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Hungtdh4vn on 7/11/2016.
  */
-public class Plane {
+public abstract class Plane {
     public static final int TYPE_1 = 1;
     public static final int TYPE_2 = 2;
-    BufferedImage sprite;
-    int positionX;
-    int positionY;
-    int speedX = 0;
-    int speedY = 0;
+    private static final String PLANE_1_RS = "Resource/Char/PLANE 1 N.png";
 
+    BufferedImage sprite;
+    private int positionX;
+    private int positionY;
+    private int speedX = 0;
+    private int speedY = 0;
     public Plane(){
 
     }
@@ -25,11 +28,11 @@ public class Plane {
         loadSpriteByType(type);
     }
 
-    public void loadSpriteByType(int type){
+    private void loadSpriteByType(int type){
         switch (type){
             case TYPE_1:
                 try {
-                    sprite = ImageIO.read(new File("Resource/Char/PLANE 1 N.png"));
+                    sprite = ImageIO.read(new File(PLANE_1_RS));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -45,9 +48,6 @@ public class Plane {
         }
     }
 
-    public void shot(){
-
-    }
 
     public void move(int x, int y){
         positionX = x;
@@ -62,9 +62,42 @@ public class Plane {
     public void update(){
         positionX += speedX;
         positionY += speedY;
+
     }
 
     public void draw(Graphics g){
         g.drawImage(sprite, positionX, positionY, null);
+    }
+
+    public int getPositionX() {
+        return positionX;
+    }
+
+    public void setPositionX(int positionX) {
+        this.positionX = positionX;
+    }
+
+    public int getPositionY() {
+        return positionY;
+    }
+
+    public void setPositionY(int positionY) {
+        this.positionY = positionY;
+    }
+
+    public int getSpeedX() {
+        return speedX;
+    }
+
+    public void setSpeedX(int speedX) {
+        this.speedX = speedX;
+    }
+
+    public int getSpeedY() {
+        return speedY;
+    }
+
+    public void setSpeedY(int speedY) {
+        this.speedY = speedY;
     }
 }

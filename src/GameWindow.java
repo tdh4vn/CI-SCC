@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by hungtran on 7/9/16.
@@ -16,7 +17,9 @@ public class GameWindow extends Frame implements Runnable{
     BufferedImage bufferImage;
     int planeX,planeY;
     int planeSpeed = 3;
-    Plane player1;
+    Plane playerAttacker;
+    Plane playerSupporter;
+    ArrayList<Plane> planes;
 
     public GameWindow(){
         initWindow();
@@ -27,7 +30,8 @@ public class GameWindow extends Frame implements Runnable{
     }
 
     void initPlane(){
-        player1 = new Plane(100, 200, Plane.TYPE_1);
+        playerAttacker = new PlaneAttacker(100, 200, Plane.TYPE_1);
+        playerSupporter = new PlaneSupporter(50, 100, Plane.TYPE_2);
     }
 
     void loadImage() {
@@ -69,11 +73,12 @@ public class GameWindow extends Frame implements Runnable{
     }
 
     private void eventKeyReleased(KeyEvent e) {
-        player1.moveByVector(0, 0);
+        playerAttacker.moveByVector(0, 0);
     }
 
     void gameUpdate(){
-        player1.update();
+        playerAttacker.update();
+        playerSupporter.update();
     }
 
     void gameLoop(){
@@ -93,19 +98,24 @@ public class GameWindow extends Frame implements Runnable{
         switch (e.getKeyChar()){
             case 'a':
                 System.out.println("AAAA");
-                player1.moveByVector(-3, 0);
+                //player1.moveByVector(-3, 0);
                 break;
             case 'w':
-                player1.moveByVector(0, -3);
+               //player1.moveByVector(0, -3);
 
                 break;
             case 's':
-                player1.moveByVector(0, 3);
+               // player1.moveByVector(0, 3);
 
                 break;
             case 'd':
-                player1.moveByVector(3, 0);
+               // player1.moveByVector(3, 0);
                 break;
+            case ' ':
+                ((Attacker)playerSupporter).shot();
+                break;
+            case 'j':
+                ((Attacker)playerAttacker).shot();
             default: break;
         }
     }
@@ -118,7 +128,8 @@ public class GameWindow extends Frame implements Runnable{
         Graphics bufferGraphics = bufferImage.getGraphics();
         bufferGraphics.drawImage(background, 0, 0, null);
 
-        player1.draw(bufferGraphics);
+        playerAttacker.draw(bufferGraphics);
+        playerSupporter.draw(bufferGraphics);
 
         g.drawImage(bufferImage, 0, 0, null);
     }
