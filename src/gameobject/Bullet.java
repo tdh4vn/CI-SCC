@@ -1,3 +1,5 @@
+package gameobject;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -8,7 +10,9 @@ import java.io.IOException;
  * Created by Hungtdh4vn on 7/11/2016.
  */
 public class Bullet {
+
     private static final String BULLET_RS = "Resource/Char/B 2.png";
+
     private BufferedImage sprite;
     private int x;
     private int y;

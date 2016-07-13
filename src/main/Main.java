@@ -1,3 +1,7 @@
+package main;
+
+import view.GameWindow;
+
 /**
  * Created by hungtran on 7/9/16.
  */

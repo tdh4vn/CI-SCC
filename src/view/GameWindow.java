@@ -1,3 +1,12 @@
+package view;
+
+import gameobject.Plane;
+import gameobject.PlaneAttacker;
+import gameobject.PlaneEnemy;
+import gameobject.PlaneSupporter;
+import intef.Attacker;
+import intef.QPressListener;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -19,19 +28,33 @@ public class GameWindow extends Frame implements Runnable{
     int planeSpeed = 3;
     Plane playerAttacker;
     Plane playerSupporter;
-    ArrayList<Plane> planes;
+    ArrayList<PlaneEnemy> enemies;
+
 
     public GameWindow(){
         initWindow();
         loadImage();
         initPlane();
+        initEnemies();
         repaint();
         System.out.println("abcd");
     }
 
+    void initEnemies(){
+        enemies = new ArrayList<>();
+        enemies.add(new PlaneEnemy(50, 50, 3));
+        enemies.add(new PlaneEnemy(100, 50, 3));
+        enemies.add(new PlaneEnemy(50, 199, 3));
+        for (QPressListener q : enemies){
+            ((PlaneAttacker)playerAttacker).addQPressListener(q);
+        }
+    }
+
     void initPlane(){
         playerAttacker = new PlaneAttacker(100, 200, Plane.TYPE_1);
+
         playerSupporter = new PlaneSupporter(50, 100, Plane.TYPE_2);
+        ((PlaneAttacker)playerAttacker).addQPressListener((QPressListener) playerSupporter);
     }
 
     void loadImage() {
@@ -45,7 +68,7 @@ public class GameWindow extends Frame implements Runnable{
 
     void initWindow(){
         this.setTitle("TechKids");
-        this.setSize(480, 800);
+        this.setSize(600, 800);
         this.setVisible(true);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -79,6 +102,9 @@ public class GameWindow extends Frame implements Runnable{
     void gameUpdate(){
         playerAttacker.update();
         playerSupporter.update();
+        for (PlaneEnemy e : enemies){
+            e.update();
+        }
     }
 
     void gameLoop(){
@@ -111,6 +137,8 @@ public class GameWindow extends Frame implements Runnable{
             case 'd':
                // player1.moveByVector(3, 0);
                 break;
+            case 'q':
+                ((PlaneAttacker)playerAttacker).notifyAll("abdcewew");
             case ' ':
                 ((Attacker)playerSupporter).shot();
                 break;
@@ -123,13 +151,16 @@ public class GameWindow extends Frame implements Runnable{
     @Override
     public void update(Graphics g) {
         if(bufferImage == null){
-            bufferImage = new BufferedImage(480, 800, 1);
+            bufferImage = new BufferedImage(600, 800, 1);
         }
         Graphics bufferGraphics = bufferImage.getGraphics();
         bufferGraphics.drawImage(background, 0, 0, null);
 
         playerAttacker.draw(bufferGraphics);
         playerSupporter.draw(bufferGraphics);
+        for (PlaneEnemy e : enemies){
+            e.draw(bufferGraphics);
+        }
 
         g.drawImage(bufferImage, 0, 0, null);
     }
