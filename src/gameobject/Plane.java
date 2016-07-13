@@ -1,9 +1,9 @@
+package gameobject;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by Hungtdh4vn on 7/11/2016.
@@ -11,6 +11,7 @@ import java.util.Iterator;
 public abstract class Plane {
     public static final int TYPE_1 = 1;
     public static final int TYPE_2 = 2;
+    public static final int TYPE_3 = 3;
     private static final String PLANE_1_RS = "Resource/Char/PLANE 1 N.png";
 
     BufferedImage sprite;
@@ -40,6 +41,12 @@ public abstract class Plane {
             case TYPE_2:
                 try {
                     sprite = ImageIO.read(new File("Resource/Char/PLANE 2 N.png"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            case TYPE_3:
+                try {
+                    sprite = ImageIO.read(new File("Resource/Char/PLANE 8 N.png"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
